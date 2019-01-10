@@ -45,31 +45,46 @@ function followsTheMostPeople (socialData) {
   return maxPerson;
 }
 
+console.log(followsTheMostPeople(data));
 
-
-// Identify who has the most followers over 30
-function mostFollowersOver30 () {
+// Identify who follows the most over 30
+function mostFollowsOver30 (socialData) {
   var obj = {};
-  for (var id in data){
-    var follows = data[id].follows;
+  var maxPerson30 = "";
+  for (var id in socialData){
+
+    var follows = socialData[id].follows;
+
     for (var i = 0; i < follows.length; i++) {
       var id = follows[i];
-      if(data[id].age > 30){
-        console.log("YAYYY");
-      }
-      if(!obj[id]){
-        obj[id] = 1;
-      }
-      else{
-        obj[id]++;
+
+      if(socialData[id].age > 30){
+        if(!obj[id]){
+          obj[id] = 1;
+        }
+        else{
+          obj[id]++;
+        }
       }
     }
   }
-  return obj;
 
+  var max = 0;
+  for (var key in obj) {
+    if (obj[key] > max) {
+      max = obj[key];
+    }
+  }
 
+  var persons = [];
+  for (var key in obj) {
+    if(obj[key] === max) {
+      persons.push(key);
+    }
+  }
+return persons;
 }
-mostFollowersOver30();
+console.log(mostFollowsOver30(data));
 
 
 // List everyone and for each of them, list the names of who they follow and who follows them
@@ -85,7 +100,7 @@ function summaryList (socialData) {
   return summary;
 }
 
-console.log(summaryList(data));
+// console.log(summaryList(data));
 
 function followersNames (pId, socialData) {
 
@@ -102,6 +117,7 @@ function followersNames (pId, socialData) {
   return namesFollows;
 }
 
+
 function followedBy(pId, socialData) {
   var followedByNames = [];
   for (var id in socialData){
@@ -117,26 +133,11 @@ function followedBy(pId, socialData) {
     }
   }
   return followedByNames;
-
-
-
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
 // Identify who has the most followers
-function mostFollowers() {
-  var obj = numberOfFollowers();
+function mostFollowers(socialData) {
+  var obj = numberOfFollowers(socialData);
   var max = 0;
   for (var key in obj) {
     if (obj[key] > max) {
@@ -156,10 +157,10 @@ return persons;
 
 // console.log(mostFollowers());
 // helper function that returns an object with id and number of followers
-function numberOfFollowers() {
+function numberOfFollowers(socialData) {
   var obj = {};
-  for (var id in data){
-    var follows = data[id].follows;
+  for (var id in socialData){
+    var follows = socialData[id].follows;
     for (var i = 0; i < follows.length; i++) {
       var id = follows[i];
       if(!obj[id]){
@@ -172,8 +173,6 @@ function numberOfFollowers() {
   }
   return obj;
 }
-
-
 
 
 
