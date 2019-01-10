@@ -32,14 +32,14 @@ var data = {
 };
 
 // Identify who follows the most people
-function followsTheMostPeople () {
+function followsTheMostPeople (socialData) {
   var max = 0;
   var maxPerson = "";
-  for ( var id in data) {
-    var numberFollows = data[id].follows.length;
+  for ( var id in socialData) {
+    var numberFollows = socialData[id].follows.length;
     if (numberFollows > max) {
       max = numberFollows;
-      maxPerson = data[id].name;
+      maxPerson = socialData[id].name;
     }
   }
   return maxPerson;
@@ -47,14 +47,61 @@ function followsTheMostPeople () {
 
 
 
-console.log(followsTheMostPeople());
+// console.log(followsTheMostPeople());
 // Identify who has the most followers over 30
 // function
 
 
 // List everyone and for each of them, list the names of who they follow and who follows them
+function summaryList (socialData) {
+  var summary = {};
+  for(var id in socialData) {
+    var name = socialData[id].name;
+    summary[name] = {
+      follows: followersNames(id, socialData),
+      followedBy: followedBy(id, socialData)
+    };
+  }
+  return summary;
+}
+
+console.log(summaryList(data));
+
+function followersNames (pId, socialData) {
+
+  var follows = socialData[pId].follows;
+  var namesFollows = [];
+  for (var i = 0; i < follows.length; i++) {
+    for(var id in socialData) {
+      var name = socialData[id].name;
+      if(id === follows[i]) {
+        namesFollows.push(name);
+      }
+    };
+  }
+  return namesFollows;
+}
+
+function followedBy(pId, socialData) {
+  var followedByNames = [];
+  for (var id in socialData){
+    var follows = socialData[id].follows; // array of follows for each user
+    for (var i = 0; i < follows.length; i++) {
+      var fId = follows[i]; // ids of ppl the user follows
 
 
+      if(fId === pId)
+      {
+      followedByNames.push(socialData[id].name);
+      }
+    }
+  }
+  return followedByNames;
+
+
+
+
+}
 
 
 
@@ -87,8 +134,8 @@ return persons;
 }
 
 
-console.log(mostFollowers());
-// function that returns an object with id and number of followers
+// console.log(mostFollowers());
+// helper function that returns an object with id and number of followers
 function numberOfFollowers() {
   var obj = {};
   for (var id in data){
@@ -105,8 +152,6 @@ function numberOfFollowers() {
   }
   return obj;
 }
-
-
 
 
 
