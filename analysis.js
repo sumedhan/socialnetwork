@@ -47,9 +47,29 @@ function followsTheMostPeople (socialData) {
 
 
 
-// console.log(followsTheMostPeople());
 // Identify who has the most followers over 30
-// function
+function mostFollowersOver30 () {
+  var obj = {};
+  for (var id in data){
+    var follows = data[id].follows;
+    for (var i = 0; i < follows.length; i++) {
+      var id = follows[i];
+      if(data[id].age > 30){
+        console.log("YAYYY");
+      }
+      if(!obj[id]){
+        obj[id] = 1;
+      }
+      else{
+        obj[id]++;
+      }
+    }
+  }
+  return obj;
+
+
+}
+mostFollowersOver30();
 
 
 // List everyone and for each of them, list the names of who they follow and who follows them
